@@ -44,7 +44,7 @@ function Start-Timer {
     $Counter_Label.Left = 10
     $Counter_Label.Top = 10
     $Counter_Form.Controls.Add($Counter_Label)
-    $s = 14399 # The amount of seconds the timer has
+    $s = 120 # The amount of seconds the timer has
     while ($s -ge 0) {
         $string_s = $s.toString() # Converts the $s int to a string
         $ts =  [timespan]::fromseconds($string_s) # Timespan object requires a string parameter, hence the previous conversion
