@@ -17,9 +17,9 @@ $RTime = Get-Date $RestartDate -f 'HH:mm'
 }
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
 [System.Reflection.Assembly]::LoadWithPartialName( "Microsoft.VisualBasic") | Out-Null
-$Title = "DHTS Reboot Notification"
+$Title = "Pixel Reboot Notification"
 $Message = "In order to apply urgent security patches and updates to your computer, your machine must be restarted.
-If you do not wish to restart your computer at this time please click on the cancel button below."
+If you do not wish to restart your computer at this time please click on one of the postpone buttons below."
 $Button1Text = "Restart now"
 $Button2Text = "Postpone for 1 hour"
 $Button3Text = "Postpone for 4 hours"
