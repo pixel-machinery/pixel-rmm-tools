@@ -1,4 +1,4 @@
-$PendingReboot = $false
+$PendingReboot = $true
 
 function Check-Updates {
     # Counts Updates (includes 3rd party things like hp drives etc)
