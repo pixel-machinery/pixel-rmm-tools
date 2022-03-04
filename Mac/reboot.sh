@@ -5,9 +5,8 @@ NA_PATH="/Applications/Pixel Notifier.app/Contents/MacOS/Pixel Notifier"
 
 # Variables for the popup notification for ease of customization
 
-# TODO check if this exists, if not set to 0
+# This check whether the plist counter exists, creates with zero count if not. 
 POPUP_COUNTER_CMD="defaults read com.pixelmachinery.notifier popup_count"
-# echo $($POPUP_COUNTER_CMD)
 if ($POPUP_COUNTER_CMD) > /dev/null 2>&1; then
     POPUP_COUNTER=$($POPUP_COUNTER_CMD)
     echo "Popup counter plist found with value ${POPUP_COUNTER}"
@@ -16,7 +15,6 @@ else
     defaults write com.pixelmachinery.notifier popup_count 0
     POPUP_COUNTER=$($POPUP_COUNTER_CMD)
 fi
-
 echo "Current count is: ${POPUP_COUNTER}"
 COUNTER_LIMIT=2
 POSTPONES_LEFT=$((COUNTER_LIMIT-POPUP_COUNTER))
