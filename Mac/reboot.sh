@@ -6,7 +6,18 @@ NA_PATH="/Applications/Pixel Notifier.app/Contents/MacOS/Pixel Notifier"
 # Variables for the popup notification for ease of customization
 
 # TODO check if this exists, if not set to 0
-POPUP_COUNTER=$(defaults read com.pixelmachinery.nofifier popup_count)
+POPUP_COUNTER_CMD="defaults read com.pixelmachinery.notifier popup_count"
+# echo $($POPUP_COUNTER_CMD)
+if ($POPUP_COUNTER_CMD) > /dev/null 2>&1; then
+    POPUP_COUNTER=$($POPUP_COUNTER_CMD)
+    echo "Popup counter plist found with value ${POPUP_COUNTER}"
+else
+    echo "Popup counter plist not found, creating with zero count..."
+    defaults write com.pixelmachinery.notifier popup_count 0
+    POPUP_COUNTER=$($POPUP_COUNTER_CMD)
+fi
+
+echo "Current count is: ${POPUP_COUNTER}"
 COUNTER_LIMIT=2
 POSTPONES_LEFT=$((COUNTER_LIMIT-POPUP_COUNTER))
 WINDOWTYPE="popup"
@@ -54,12 +65,12 @@ echo "$RESPONSE"
 if [ $RESPONSE -eq "0" ]; then
     echo "Reboot button pressed"
     echo "Resetting counter to 0"
-    defaults write com.pixelmachinery.nofifier popup_count 0
+    defaults write com.pixelmachinery.notifier popup_count 0
 elif [ $RESPONSE -eq "2" ]; then
     echo "Postpone button pressed."
-    defaults write com.pixelmachinery.nofifier popup_count $NEW_COUNTER
+    defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
 else
     echo "Time ran out, forcing reboot."
     echo "Resetting counter to 0"
-    defaults write com.pixelmachinery.nofifier popup_count 0
+    defaults write com.pixelmachinery.notifier popup_count 0
 fi
