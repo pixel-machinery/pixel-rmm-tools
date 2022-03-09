@@ -96,31 +96,11 @@ upgrade_check() {
 return_target_version() {
     if [[ "$ACTUAL" == 10.15.* ]]; then
         # echo "macOS Catalina - $ACTUAL"
-        if is-at-least "$LATEST_CATALINA" "$ACTUAL"; then
-            # echo "We're on latest version - $LATEST_CATALINA"
-            echo "0"
-        else
-            # echo "Not on latest, should upgrade to - $LATEST_CATALINA"
-            echo $LATEST_CATALINA
-        fi
+        $LATEST_CATALINA
     elif [[ "$ACTUAL" == 11.* ]]; then
-        # echo "macOS Big Sur - $ACTUAL"
-        if is-at-least "$LATEST_BIGSUR" "$ACTUAL"; then
-            # echo "We're on latest version - $LATEST_BIGSUR"
-            echo "0"
-        else
-            # echo "Not on latest, should upgrade to - $LATEST_BIGSUR"
-            echo $LATEST_BIGSUR
-        fi
+        echo $LATEST_BIGSUR
     elif [[ "$ACTUAL" == 12.* ]]; then
-        # echo "macOS Monterey - $ACTUAL"
-        if is-at-least "$LATEST_MONTEREY" "$ACTUAL"; then
-            # echo "We're on latest version - $LATEST_MONTEREY"
-            echo "0"
-        else
-            # echo "Not on latest, should upgrade to - $LATEST_MONTEREY"
-            echo $LATEST_MONTEREY
-        fi
+        echo $LATEST_MONTEREY
     else
         # echo "(Mac) OS X something -- probably pre-catalina"
         echo "1"
@@ -153,8 +133,8 @@ prompt_user() {
 # Check if update is needed...
 UPGRADE_COMMAND=$(upgrade_check)
 echo "$UPGRADE_COMMAND"
+target_ver="$(return_target_version)"
 if [ ! "$UPGRADE_COMMAND" = "0" ]; then
-    target_ver="$(return_target_version)"
     echo "Running upgrade logic, upgrading from $ACTUAL to $target_ver with build $UPGRADE_COMMAND."
 
     if [ $(defaults read com.pixelmachinery.notifier popup_count) ]; then
@@ -199,5 +179,5 @@ Note that the update process may take up to an hour, please make sure your lapto
         defaults write com.pixelmachinery.notifier popup_count 0
     fi
 else 
-    echo "Current version ($ACTUAL) matches target version ($(return_target_version)) - nothing to do."
+    echo "Current version (${ACTUAL}) matches target version (${target_ver}) - nothing to do."
 fi
