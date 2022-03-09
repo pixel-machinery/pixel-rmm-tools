@@ -73,22 +73,10 @@ while test $# -gt 0; do
   esac
 done
 echo $LATEST_MONTEREY
-# IBM Notifier binary paths
+# IBM Notifier binary paths -- need to check if this exists, install otherwise
 NA_PATH="/Applications/Pixel Notifier.app/Contents/MacOS/Pixel Notifier"
 
-# Variables for the popup notification for ease of customization
-
-# This check whether the plist counter exists, creates with zero count if not. 
-# $(/usr/libexec/PlistBuddy -c 'print ":name"' 
-# defaults read com.pixelmachinery.notifier popup_count
-# POPUP_COUNTER_CMD="bash -c `defaults read com.pixelmachinery.notifier popup_count`"
-# echo "$($POPUP_COUNTER_CMD)"
-
 autoload is-at-least
-
-
-
-
 
 TARGET_VERSION=""
 
@@ -144,7 +132,7 @@ upgrade_check() {
 return_target_version() {
     if [[ "$ACTUAL" == 10.15.* ]]; then
         # echo "macOS Catalina - $ACTUAL"
-        $LATEST_CATALINA
+        echo $LATEST_CATALINA
     elif [[ "$ACTUAL" == 11.* ]]; then
         echo $LATEST_BIGSUR
     elif [[ "$ACTUAL" == 12.* ]]; then
@@ -182,6 +170,8 @@ prompt_user() {
 UPGRADE_COMMAND=$(upgrade_check)
 echo "$UPGRADE_COMMAND"
 target_ver="$(return_target_version)"
+
+## add IF statement when upgrade command is 1 -- some sort of weird thing happening
 if [ ! "$UPGRADE_COMMAND" = "0" ]; then
     echo "Running upgrade logic, upgrading from $ACTUAL to $target_ver with build $UPGRADE_COMMAND."
 
@@ -218,6 +208,8 @@ Note that the update process may take up to an hour, please make sure your lapto
         echo "Reboot button pressed"
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
+        ## Execute the erase-intsall update funcation
+        /Library/Management/erase-install/erase-install.sh --force-curl --rebootdelay 120 --current-user --reinstall --build=$UPGRADE_COMMAND --depnotify --test-run
     elif [ $RESPONSE -eq "2" ]; then
         echo "Postpone button pressed."
         defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
