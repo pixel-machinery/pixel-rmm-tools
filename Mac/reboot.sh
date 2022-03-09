@@ -1,7 +1,28 @@
 #!/usr/bin/env zsh
 
+## Optional arguments (for testing):
+## -v Overrides actual version of the MacOS
+## -m Specify target latest Monterey version
+## -b Specify target latest Big Sur version
+## -c Specify target latest Catalina version
 
 
+# Defaults for currently latest versions of each supported MacOS
+ACTUAL=$(sw_vers -productVersion)
+LATEST_MONTEREY="12.2.1"
+LATEST_BIGSUR="11.6.4"
+LATEST_CATALINA="10.15.7"
+
+while getopts v:lm:lb:lc: flag
+do
+    case "${flag}" in
+        v) ACTUAL=${OPTARG:-$(sw_vers -productVersion)};;
+        m) LATEST_MONTEREY=${OPTARG:-$LATEST_MONTEREY};;
+        b) LATEST_BIGSUR=${OPTARG};;
+        c) LATEST_CATALINA=${OPTARG};;
+    esac
+done
+echo $LATEST_MONTEREY
 # IBM Notifier binary paths
 NA_PATH="/Applications/Pixel Notifier.app/Contents/MacOS/Pixel Notifier"
 
@@ -12,10 +33,10 @@ NA_PATH="/Applications/Pixel Notifier.app/Contents/MacOS/Pixel Notifier"
 # defaults read com.pixelmachinery.notifier popup_count
 # POPUP_COUNTER_CMD="bash -c `defaults read com.pixelmachinery.notifier popup_count`"
 # echo "$($POPUP_COUNTER_CMD)"
-ACTUAL=$(sw_vers -productVersion)
-LATEST_MONTEREY="12.2.2"
-LATEST_BIGSUR="11.6.4"
-LATEST_CATALINA="10.15.7"
+
+autoload is-at-least
+
+
 
 LATEST_MONTEREY_BUILD="21D62"
 LATEST_BIGSUR_BUILD="20G417"
@@ -38,13 +59,6 @@ upgrade_check() {
             echo "$NAME: 'sw_vers' is required but not found in $PATH" >>/dev/stderr
             exit 2
     fi
-
-            ## First we get the value for this Mac and save it to `$ACTUAL`
-    
-
-            ## load 'is-at-least' so we can use it
-    autoload is-at-least
-
             ## "Is the version of macOS that we are using _at least_ 10.16?"
     if [[ "$ACTUAL" == 10.15.* ]]; then
         # echo "macOS Catalina - $ACTUAL"
@@ -53,7 +67,6 @@ upgrade_check() {
             echo "0"
         else
             # echo "Not on latest, should upgrade to - $LATEST_CATALINA"
-            TARGET_VERSION=LATEST_CATALINA
             echo $LATEST_CATALINA_BUILD
         fi
     elif [[ "$ACTUAL" == 11.* ]]; then
@@ -63,7 +76,6 @@ upgrade_check() {
             echo "0"
         else
             # echo "Not on latest, should upgrade to - $LATEST_BIGSUR"
-            TARGET_VERSION=LATEST_BIGSUR
             echo $LATEST_BIGSUR_BUILD
         fi
     elif [[ "$ACTUAL" == 12.* ]]; then
@@ -73,7 +85,6 @@ upgrade_check() {
             echo "0"
         else
             # echo "Not on latest, should upgrade to - $LATEST_MONTEREY"
-            TARGET_VERSION="$(set_target_version $LATEST_MONTEREY)"
             echo $LATEST_MONTEREY_BUILD
         fi
     else
@@ -143,8 +154,9 @@ prompt_user() {
 UPGRADE_COMMAND=$(upgrade_check)
 echo "$UPGRADE_COMMAND"
 if [ ! "$UPGRADE_COMMAND" = "0" ]; then
-    echo "Running upgrade logic, upgrading from $ACTUAL to $TARGET_VERSION: $UPGRADE_COMMAND"
     target_ver="$(return_target_version)"
+    echo "Running upgrade logic, upgrading from $ACTUAL to $target_ver with build $UPGRADE_COMMAND."
+
     if [ $(defaults read com.pixelmachinery.notifier popup_count) ]; then
         POPUP_COUNTER=$(defaults read com.pixelmachinery.notifier popup_count)
         echo "Popup counter plist found with value ${POPUP_COUNTER}"
@@ -170,7 +182,6 @@ if [ ! "$UPGRADE_COMMAND" = "0" ]; then
 Your Mac needs to be restarted to apply important updates  (from ${ACTUAL} to ${target_ver}). Please save your work and restart at your earliest convenience. 
 
 Note that the update process may take up to an hour, please make sure your laptop is plugged in to power.
-
 "
 
     RESPONSE=$(prompt_user)
