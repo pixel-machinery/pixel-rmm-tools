@@ -208,8 +208,8 @@ Note that the update process may take up to an hour, please make sure your lapto
         echo "Reboot button pressed"
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
-        ## Execute the erase-intsall update funcation
-        /Library/Management/erase-install/erase-install.sh --force-curl --rebootdelay 120 --current-user --reinstall --build=$UPGRADE_COMMAND --depnotify --test-run
+        ## Execute the erase-intsall update funcation, need to check for presence of the package
+        /Library/Management/erase-install/erase-install.sh --force-curl --rebootdelay 120 --current-user --reinstall --build=$UPGRADE_COMMAND --depnotify
     elif [ $RESPONSE -eq "2" ]; then
         echo "Postpone button pressed."
         defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
