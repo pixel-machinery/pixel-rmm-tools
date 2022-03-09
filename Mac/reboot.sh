@@ -179,5 +179,5 @@ Note that the update process may take up to an hour, please make sure your lapto
         defaults write com.pixelmachinery.notifier popup_count 0
     fi
 else 
-    echo "Current version (${ACTUAL}) matches target version (${target_ver}) - nothing to do."
+    echo "Current version (${ACTUAL}) is greater or equal to the target version (${target_ver}) - nothing to do."
 fi
