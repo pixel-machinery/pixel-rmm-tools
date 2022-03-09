@@ -214,10 +214,15 @@ Note that the update process may take up to an hour, please make sure your lapto
     elif [ $RESPONSE -eq "2" ]; then
         echo "Postpone button pressed."
         defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
-    else
+    elif [ $RESPONSE -eq "4" ]; then
         echo "Time ran out, forcing reboot."
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
+        /Library/Management/erase-install/erase-install.sh --force-curl --rebootdelay 120 --current-user --reinstall --build=$UPGRADE_COMMAND --depnotify
+    else 
+        echo "Something went wrong - return value is: $RESPONSE."
+        ## TODO notify pixel or something when this happens so we can investigate
+        exit 1
     fi
 else 
     echo "Current version (${ACTUAL}) is greater or equal to the target version (${target_ver}) - nothing to do."
