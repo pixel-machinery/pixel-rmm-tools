@@ -132,7 +132,7 @@ if [ ! "$UPGRADE_COMMAND" = "0" ]; then
     TIMEOUT="" # leave empty for no notification time
     BUTTON_1="Update & Restart Now"
     BUTTON_2="Postpone one day (${POSTPONES_LEFT} left)"
-    SUBTITLE="Your Mac needs to be restarted to apply important updates (from ${ACTUAL} to build ${UPGRADE_COMMAND}). Please save your work and restart at your earliest convenience.
+    SUBTITLE="Your Mac needs to be restarted to apply important updates. Please save your work and restart at your earliest convenience.
 
     Note that the update process may take up to an hour, please make sure your laptop is plugged in to power."
 
