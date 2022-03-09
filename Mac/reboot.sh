@@ -13,7 +13,7 @@ NA_PATH="/Applications/Pixel Notifier.app/Contents/MacOS/Pixel Notifier"
 # POPUP_COUNTER_CMD="bash -c `defaults read com.pixelmachinery.notifier popup_count`"
 # echo "$($POPUP_COUNTER_CMD)"
 ACTUAL=$(sw_vers -productVersion)
-LATEST_MONTEREY="12.2.1"
+LATEST_MONTEREY="12.2.2"
 LATEST_BIGSUR="11.6.4"
 LATEST_CATALINA="10.15.7"
 
