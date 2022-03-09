@@ -158,7 +158,8 @@ prompt_user() {
         ${sec_button[@]} \
         -always_on_top \
         -accessory_view_type timer \
-        -accessory_view_payload "Time left until restart: %@" -timeout 5000
+        -accessory_view_payload "Time left until restart: %@" -timeout 5000 \
+        -miniaturizable
         )
 
     echo "$?"
@@ -188,7 +189,7 @@ if [ ! "$UPGRADE_COMMAND" = "0" ]; then
     NEW_COUNTER=$((POPUP_COUNTER+1))
 
 
-    COUNTER_LIMIT=2
+    COUNTER_LIMIT=4
     POSTPONES_LEFT=$((COUNTER_LIMIT-POPUP_COUNTER))
     WINDOWTYPE="popup"
     BAR_TITLE="Pixel Machinery Notification"
@@ -208,7 +209,7 @@ Note that the update process may take up to an hour, please make sure your lapto
         echo "Reboot button pressed"
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
-        ## Execute the erase-intsall update funcation, need to check for presence of the package
+        ## Execute the erase-intsall update funcation
         /Library/Management/erase-install/erase-install.sh --force-curl --rebootdelay 120 --current-user --reinstall --build=$UPGRADE_COMMAND --depnotify
     elif [ $RESPONSE -eq "2" ]; then
         echo "Postpone button pressed."
