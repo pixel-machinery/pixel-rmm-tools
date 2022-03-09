@@ -198,4 +198,6 @@ Note that the update process may take up to an hour, please make sure your lapto
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
     fi
+else 
+    echo "Current version ($ACTUAL) matches target version ($(return_target_version)) - nothing to do."
 fi
