@@ -1,11 +1,12 @@
 #!/usr/bin/env zsh
 
-## Optional arguments (for testing):
-## -v Overrides actual version of the MacOS
-## -m Specify target latest Monterey version
-## -b Specify target latest Big Sur version
-## -c Specify target latest Catalina version
-
+## Optional arguments
+#  "--lm VERSION            specify latest Monterey version to check against"
+#  "--tm BUILD_NUMBER       specify latest Monterey build to use"
+#  "--lb VERSION            specify latest Big Sur version to check against"
+#  "--tb BUILD_NUMBER       specify latest Big Sur build to use"
+#  "--lc VERSION            specify latest Catalina version to check against"
+#  "--tc BUILD_NUMBER       specify latest Catalina build to use"
 
 # Defaults for currently latest versions of each supported MacOS
 ACTUAL=$(sw_vers -productVersion)
@@ -13,14 +14,63 @@ LATEST_MONTEREY="12.2.1"
 LATEST_BIGSUR="11.6.4"
 LATEST_CATALINA="10.15.7"
 
-while getopts v:lm:lb:lc: flag
-do
-    case "${flag}" in
-        v) ACTUAL=${OPTARG:-$(sw_vers -productVersion)};;
-        m) LATEST_MONTEREY=${OPTARG:-$LATEST_MONTEREY};;
-        b) LATEST_BIGSUR=${OPTARG};;
-        c) LATEST_CATALINA=${OPTARG};;
-    esac
+LATEST_MONTEREY_BUILD="21D62"
+LATEST_BIGSUR_BUILD="20G417"
+LATEST_CATALINA_BUILD="19H1715"
+
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+      echo "options:"
+      echo "-h, --help                show brief help"
+      echo "--lm VERSION            specify latest Monterey version to check against"
+      echo "--tm BUILD_NUMBER       specify latest Monterey build to use"
+      echo "--lb VERSION            specify latest Big Sur version to check against"
+      echo "--tb BUILD_NUMBER       specify latest Big Sur build to use"
+      echo "--lc VERSION            specify latest Catalina version to check against"
+      echo "--tc BUILD_NUMBER       specify latest Catalina build to use"
+      exit 0
+      ;;
+    --lm*)
+      shift
+      echo "Latest Monterey version provided: $1"
+      LATEST_MONTEREY=$1
+      shift
+      ;;
+    --lb*)
+      shift
+      echo "Latest Big Sur version provided: $1"
+      LATEST_BIGSUR=$1
+      shift
+      ;;
+    --lc*)
+      shift
+      echo "Latest Catalina version provided: $1"
+      LATEST_CATALINA=$1
+      shift
+      ;;
+    --tm*)
+      shift
+      echo "Latest Monterey build number provided: $1"
+      LATEST_MONTEREY_BUILD=$1
+      shift
+      ;;
+    --tb*)
+      shift
+      echo "Latest Big Sur build number provided: $1"
+      LATEST_BIGSUR_BUILD=$1
+      shift
+      ;;
+    --tc*)
+      shift
+      echo "Latest Catalina build number provided: $1"
+      LATEST_CATALINA_BUILD=$1
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
 done
 echo $LATEST_MONTEREY
 # IBM Notifier binary paths
@@ -38,9 +88,7 @@ autoload is-at-least
 
 
 
-LATEST_MONTEREY_BUILD="21D62"
-LATEST_BIGSUR_BUILD="20G417"
-LATEST_CATALINA_BUILD="19H1715"
+
 
 TARGET_VERSION=""
 
@@ -165,7 +213,7 @@ Note that the update process may take up to an hour, please make sure your lapto
 "
 
     RESPONSE=$(prompt_user)
-    echo "$RESPONSE"
+    echo "Response code is: $RESPONSE"
     if [ $RESPONSE -eq "0" ]; then
         echo "Reboot button pressed"
         echo "Resetting counter to 0"
