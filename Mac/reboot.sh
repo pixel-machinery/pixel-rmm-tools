@@ -13,13 +13,15 @@ NA_PATH="/Applications/Pixel Notifier.app/Contents/MacOS/Pixel Notifier"
 # POPUP_COUNTER_CMD="bash -c `defaults read com.pixelmachinery.notifier popup_count`"
 # echo "$($POPUP_COUNTER_CMD)"
 ACTUAL=$(sw_vers -productVersion)
-LATEST_MONTEREY="12.2.1"
+LATEST_MONTEREY="12.2.3"
 LATEST_BIGSUR="11.6.4"
 LATEST_CATALINA="10.15.7"
 
 LATEST_MONTEREY_BUILD="21D62"
 LATEST_BIGSUR_BUILD="20G417"
 LATEST_CATALINA_BUILD="19H1715"
+
+# TARGET_VERSION=""
 
 ### FUNCTIONS ###
 
@@ -51,6 +53,7 @@ upgrade_check() {
             echo "0"
         else
             # echo "Not on latest, should upgrade to - $LATEST_CATALINA"
+            TARGET_VERSION=LATEST_CATALINA
             echo $LATEST_CATALINA_BUILD
         fi
     elif [[ "$ACTUAL" == 11.* ]]; then
@@ -60,6 +63,7 @@ upgrade_check() {
             echo "0"
         else
             # echo "Not on latest, should upgrade to - $LATEST_BIGSUR"
+            TARGET_VERSION=LATEST_BIGSUR
             echo $LATEST_BIGSUR_BUILD
         fi
     elif [[ "$ACTUAL" == 12.* ]]; then
@@ -69,6 +73,7 @@ upgrade_check() {
             echo "0"
         else
             # echo "Not on latest, should upgrade to - $LATEST_MONTEREY"
+            TARGET_VERSION=LATEST_MONTEREY
             echo $LATEST_MONTEREY_BUILD
         fi
     else
@@ -105,7 +110,7 @@ UPGRADE_COMMAND=$(upgrade_check)
 echo "$UPGRADE_COMMAND"
 
 if [ ! "$UPGRADE_COMMAND" = "0" ]; then
-    echo "Running upgrade logic, upgrading to: $UPGRADE_COMMAND"
+    echo "Running upgrade logic, upgrading from $ACTUAL to $TARGET_VERSION: $UPGRADE_COMMAND"
     if [ $(defaults read com.pixelmachinery.notifier popup_count) ]; then
         POPUP_COUNTER=$(defaults read com.pixelmachinery.notifier popup_count)
         echo "Popup counter plist found with value ${POPUP_COUNTER}"
