@@ -21,7 +21,7 @@ LATEST_MONTEREY_BUILD="21D62"
 LATEST_BIGSUR_BUILD="20G417"
 LATEST_CATALINA_BUILD="19H1715"
 
-# TARGET_VERSION=""
+TARGET_VERSION=""
 
 ### FUNCTIONS ###
 
@@ -73,8 +73,42 @@ upgrade_check() {
             echo "0"
         else
             # echo "Not on latest, should upgrade to - $LATEST_MONTEREY"
-            TARGET_VERSION=LATEST_MONTEREY
+            TARGET_VERSION="$(set_target_version $LATEST_MONTEREY)"
             echo $LATEST_MONTEREY_BUILD
+        fi
+    else
+        # echo "(Mac) OS X something -- probably pre-catalina"
+        echo "1"
+    fi
+}
+
+return_target_version() {
+    if [[ "$ACTUAL" == 10.15.* ]]; then
+        # echo "macOS Catalina - $ACTUAL"
+        if is-at-least "$LATEST_CATALINA" "$ACTUAL"; then
+            # echo "We're on latest version - $LATEST_CATALINA"
+            echo "0"
+        else
+            # echo "Not on latest, should upgrade to - $LATEST_CATALINA"
+            echo $LATEST_CATALINA
+        fi
+    elif [[ "$ACTUAL" == 11.* ]]; then
+        # echo "macOS Big Sur - $ACTUAL"
+        if is-at-least "$LATEST_BIGSUR" "$ACTUAL"; then
+            # echo "We're on latest version - $LATEST_BIGSUR"
+            echo "0"
+        else
+            # echo "Not on latest, should upgrade to - $LATEST_BIGSUR"
+            echo $LATEST_BIGSUR
+        fi
+    elif [[ "$ACTUAL" == 12.* ]]; then
+        # echo "macOS Monterey - $ACTUAL"
+        if is-at-least "$LATEST_MONTEREY" "$ACTUAL"; then
+            # echo "We're on latest version - $LATEST_MONTEREY"
+            echo "0"
+        else
+            # echo "Not on latest, should upgrade to - $LATEST_MONTEREY"
+            echo $LATEST_MONTEREY
         fi
     else
         # echo "(Mac) OS X something -- probably pre-catalina"
@@ -108,9 +142,9 @@ prompt_user() {
 # Check if update is needed...
 UPGRADE_COMMAND=$(upgrade_check)
 echo "$UPGRADE_COMMAND"
-
 if [ ! "$UPGRADE_COMMAND" = "0" ]; then
     echo "Running upgrade logic, upgrading from $ACTUAL to $TARGET_VERSION: $UPGRADE_COMMAND"
+    target_ver="$(return_target_version)"
     if [ $(defaults read com.pixelmachinery.notifier popup_count) ]; then
         POPUP_COUNTER=$(defaults read com.pixelmachinery.notifier popup_count)
         echo "Popup counter plist found with value ${POPUP_COUNTER}"
@@ -132,9 +166,12 @@ if [ ! "$UPGRADE_COMMAND" = "0" ]; then
     TIMEOUT="" # leave empty for no notification time
     BUTTON_1="Update & Restart Now"
     BUTTON_2="Postpone one day (${POSTPONES_LEFT} left)"
-    SUBTITLE="Your Mac needs to be restarted to apply important updates. Please save your work and restart at your earliest convenience.
+    SUBTITLE="
+Your Mac needs to be restarted to apply important updates  (from ${ACTUAL} to ${target_ver}). Please save your work and restart at your earliest convenience. 
 
-    Note that the update process may take up to an hour, please make sure your laptop is plugged in to power."
+Note that the update process may take up to an hour, please make sure your laptop is plugged in to power.
+
+"
 
     RESPONSE=$(prompt_user)
     echo "$RESPONSE"
