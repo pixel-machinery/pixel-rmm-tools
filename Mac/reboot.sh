@@ -210,7 +210,7 @@ Note that the update process may take up to an hour, please make sure your lapto
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
         ## Execute the erase-intsall update funcation
-        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 120 --current-user --reinstall --build=$UPGRADE_COMMAND --depnotify
+        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 120 --current-user --reinstall --depnotify --sameos
     elif [ $RESPONSE -eq "2" ]; then
         echo "Postpone button pressed."
         defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
@@ -218,7 +218,7 @@ Note that the update process may take up to an hour, please make sure your lapto
         echo "Time ran out, forcing reboot."
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
-        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 120 --current-user --reinstall --build=$UPGRADE_COMMAND --depnotify
+        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 120 --current-user --reinstall --depnotify --sameos
     else 
         echo "Something went wrong - return value is: $RESPONSE."
         ## TODO notify pixel or something when this happens so we can investigate
