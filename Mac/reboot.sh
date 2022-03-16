@@ -144,6 +144,7 @@ return_target_version() {
 }
 
 prompt_user() {
+    
     # This will call the IBM Notifier Agent
     if [[ "${POSTPONES_LEFT}" -ge 1 ]]; then
         sec_button=("-secondary_button_label" "${BUTTON_2}")
@@ -158,7 +159,7 @@ prompt_user() {
         ${sec_button[@]} \
         -always_on_top \
         -accessory_view_type timer \
-        -accessory_view_payload "Time left until restart: %@" -timeout 5000 \
+        -accessory_view_payload "Time left until restart: %@" -timeout 10800 \
         -miniaturizable
         )
 
@@ -166,7 +167,7 @@ prompt_user() {
 }
 
 ### END FUNCTIONS ###
-
+echo "$(date) - Upgrade logic starting."
 # Check if update is needed...
 UPGRADE_COMMAND=$(upgrade_check)
 echo "$UPGRADE_COMMAND"
@@ -198,24 +199,24 @@ if [ ! "$UPGRADE_COMMAND" = "0" ]; then
     BUTTON_1="Update & Restart Now"
     BUTTON_2="Postpone one day (${POSTPONES_LEFT} left)"
     SUBTITLE="
-Your Mac needs to be restarted to apply important updates  (from ${ACTUAL} to ${target_ver}). Please save your work and restart at your earliest convenience. 
+Your Mac needs to be restarted to apply important updates. Please save your work and restart at your earliest convenience. 
 
 Note that the update process may take up to an hour, please make sure your laptop is plugged in to power.
 "
-
+    echo "$(date) - Popup notification launched."
     RESPONSE=$(prompt_user)
     echo "Response code is: $RESPONSE"
     if [ $RESPONSE -eq "0" ]; then
-        echo "Reboot button pressed"
+        echo "$(date) - Reboot button pressed"
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
         ## Execute the erase-intsall update funcation
         curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 120 --current-user --reinstall --depnotify --sameos
     elif [ $RESPONSE -eq "2" ]; then
-        echo "Postpone button pressed."
+        echo "$(date) - Postpone button pressed."
         defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
     elif [ $RESPONSE -eq "4" ]; then
-        echo "Time ran out, forcing reboot."
+        echo "$(date) - Time ran out, forcing reboot."
         echo "Resetting counter to 0"
         defaults write com.pixelmachinery.notifier popup_count 0
         curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 120 --current-user --reinstall --depnotify --sameos
