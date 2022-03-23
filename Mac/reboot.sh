@@ -10,8 +10,8 @@
 
 # Defaults for currently latest versions of each supported MacOS
 ACTUAL=$(sw_vers -productVersion)
-LATEST_MONTEREY="12.2.1"
-LATEST_BIGSUR="11.6.4"
+LATEST_MONTEREY="12.3"
+LATEST_BIGSUR="11.6.5"
 LATEST_CATALINA="10.15.7"
 
 LATEST_MONTEREY_BUILD="21D62"
