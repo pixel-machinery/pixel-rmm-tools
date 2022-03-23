@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+# This version of the script will appear as a task in Mosyle's Self-Service that the user can run at any time. It will
+# prompt them to either update the latest sameos version or give them the option to upgrade to the latest version pushed
+# from Apple. If the task is run and the user is already on the latest version pushed from Apple, it will notify the user
+# and no updates will apply.
+
 ## Optional arguments
 #  "--lm VERSION            specify latest Monterey version to check against"
 #  "--tm BUILD_NUMBER       specify latest Monterey build to use"
