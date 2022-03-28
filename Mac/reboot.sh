@@ -169,40 +169,40 @@ prompt_user() {
 
 ### END FUNCTIONS ###
 
-echo "$(date) - Checking for internet/DNS connection."
-online=0
-echo -e "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    echo "Online"
-    online=1
-else
-    echo "$(date) - No internet connection detected, aborting"
+echo "$(date) - Upgrade logic starting."
+# Check if update is needed...
+UPGRADE_COMMAND=$(upgrade_check)
+echo "$UPGRADE_COMMAND"
+target_ver="$(return_target_version)"
+
+## add IF statement when upgrade command is 1 -- some sort of weird thing happening
+if [ ! "$UPGRADE_COMMAND" = "0" ]; then
+    echo "$(date) - Checking for internet/DNS connection."
     online=0
-    exit 1
-fi
+    echo -e "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "Online"
+        online=1
+    else
+        echo "$(date) - No internet connection detected, aborting"
+        online=0
+        exit 1
+    fi
 
-cache_verified=1
-if [ $online -eq 1 ]; then
-    echo "$(date) - Checking if latest install package is cached, download otherwise."
+    cache_verified=1
+    if [ $online -eq 1 ]; then
+        echo "$(date) - Checking if latest install package is cached, download otherwise."
 
-    curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --update --sameos
+        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --update --sameos
 
-    cache_verified=$?
-    echo "returned $cache_verified"
-fi
+        cache_verified=$?
+        echo "returned $cache_verified"
+    fi
 
-if [ $cache_verified -ne 0 ]; then
-    echo "$(date) - Error: check for cached downloader did not return 0, aborting"
-    exit 1
-else
-    echo "$(date) - Upgrade logic starting."
-    # Check if update is needed...
-    UPGRADE_COMMAND=$(upgrade_check)
-    echo "$UPGRADE_COMMAND"
-    target_ver="$(return_target_version)"
-
-    ## add IF statement when upgrade command is 1 -- some sort of weird thing happening
-    if [ ! "$UPGRADE_COMMAND" = "0" ]; then
+    if [ $cache_verified -ne 0 ]; then
+        echo "$(date) - Error: check for cached downloader did not return 0, aborting"
+        exit 1
+    else
         echo "Running upgrade logic, upgrading from $ACTUAL to $target_ver with build $UPGRADE_COMMAND."
 
         if [ $(defaults read com.pixelmachinery.notifier popup_count) ]; then
@@ -253,7 +253,7 @@ Note that the update process may take up to an hour, please make sure your lapto
             ## TODO notify pixel or something when this happens so we can investigate
             exit 1
         fi
-    else 
-        echo "Current version (${ACTUAL}) is greater or equal to the target version (${target_ver}) - nothing to do."
     fi
+else 
+    echo "Current version (${ACTUAL}) is greater or equal to the target version (${target_ver}) - nothing to do."
 fi
