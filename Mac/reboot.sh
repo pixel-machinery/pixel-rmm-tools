@@ -239,7 +239,7 @@ Note that the update process may take up to an hour, please make sure your lapto
             echo "Resetting counter to 0"
             defaults write com.pixelmachinery.notifier popup_count 0
             ## Execute the erase-install update funcation
-            curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 60 --current-user --reinstall --depnotify --update --sameos --cleanup-after-use
+            curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 60 --current-user --reinstall --depnotify --sameos --cleanup-after-use
         elif [ $RESPONSE -eq "2" ]; then
             echo "$(date) - Postpone button pressed."
             defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
@@ -247,7 +247,7 @@ Note that the update process may take up to an hour, please make sure your lapto
             echo "$(date) - Time ran out, forcing reboot."
             echo "Resetting counter to 0"
             defaults write com.pixelmachinery.notifier popup_count 0
-            curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 60 --current-user --reinstall --depnotify --update --sameos --cleanup-after-use
+            curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 60 --current-user --reinstall --depnotify --sameos --cleanup-after-use
         else 
             echo "Something went wrong - return value is: $RESPONSE."
             ## TODO notify pixel or something when this happens so we can investigate
