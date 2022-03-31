@@ -82,6 +82,7 @@ TARGET_VERSION=""
 
 ### FUNCTIONS ###
 
+
 upgrade_check() {
 
     
@@ -167,6 +168,7 @@ prompt_user() {
 }
 
 ### END FUNCTIONS ###
+
 echo "$(date) - Upgrade logic starting."
 # Check if update is needed...
 UPGRADE_COMMAND=$(upgrade_check)
@@ -175,55 +177,82 @@ target_ver="$(return_target_version)"
 
 ## add IF statement when upgrade command is 1 -- some sort of weird thing happening
 if [ ! "$UPGRADE_COMMAND" = "0" ]; then
-    echo "Running upgrade logic, upgrading from $ACTUAL to $target_ver with build $UPGRADE_COMMAND."
-
-    if [ $(defaults read com.pixelmachinery.notifier popup_count) ]; then
-        POPUP_COUNTER=$(defaults read com.pixelmachinery.notifier popup_count)
-        echo "Popup counter plist found with value ${POPUP_COUNTER}"
+    echo "$(date) - Checking for internet/DNS connection."
+    online=0
+    echo -e "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "Online"
+        online=1
     else
-        echo "Popup counter plist not found, creating with zero count..."
-        defaults write com.pixelmachinery.notifier popup_count 0
-        POPUP_COUNTER=$(defaults read com.pixelmachinery.notifier popup_count)
+        echo "$(date) - No internet connection detected, aborting"
+        online=0
+        exit 1
     fi
-    echo "Current count is: ${POPUP_COUNTER}"
 
-    NEW_COUNTER=$((POPUP_COUNTER+1))
+    cache_verified=1
+    if [ $online -eq 1 ]; then
+        echo "$(date) - Checking if latest install package is cached, download otherwise."
+
+        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --sameos
+
+        cache_verified=$?
+        echo "returned $cache_verified"
+    fi
+
+    if [ $cache_verified -ne 0 ]; then
+        echo "$(date) - Error: check for cached downloader did not return 0, aborting"
+        exit 1
+    else
+        echo "Running upgrade logic, upgrading from $ACTUAL to $target_ver with build $UPGRADE_COMMAND."
+
+        if [ $(defaults read com.pixelmachinery.notifier popup_count) ]; then
+            POPUP_COUNTER=$(defaults read com.pixelmachinery.notifier popup_count)
+            echo "Popup counter plist found with value ${POPUP_COUNTER}"
+        else
+            echo "Popup counter plist not found, creating with zero count..."
+            defaults write com.pixelmachinery.notifier popup_count 0
+            POPUP_COUNTER=$(defaults read com.pixelmachinery.notifier popup_count)
+        fi
+        echo "Current count is: ${POPUP_COUNTER}"
+
+        NEW_COUNTER=$((POPUP_COUNTER+1))
 
 
-    COUNTER_LIMIT=4
-    POSTPONES_LEFT=$((COUNTER_LIMIT-POPUP_COUNTER))
-    WINDOWTYPE="popup"
-    BAR_TITLE="Pixel Machinery Notification"
-    TITLE="Reboot required"
-    TIMEOUT="" # leave empty for no notification time
-    BUTTON_1="Update & Restart Now"
-    BUTTON_2="Postpone one day (${POSTPONES_LEFT} left)"
-    SUBTITLE="
+        COUNTER_LIMIT=4
+        POSTPONES_LEFT=$((COUNTER_LIMIT-POPUP_COUNTER))
+        WINDOWTYPE="popup"
+        BAR_TITLE="Pixel Machinery Notification"
+        TITLE="Reboot required"
+        TIMEOUT="" # leave empty for no notification time
+        BUTTON_1="Update & Restart Now"
+        BUTTON_2="Postpone one day (${POSTPONES_LEFT} left)"
+        SUBTITLE="
 Your Mac needs to be restarted to apply important updates. Please save your work and restart at your earliest convenience. 
 
 Note that the update process may take up to an hour, please make sure your laptop is plugged in to power.
 "
-    echo "$(date) - Popup notification launched."
-    RESPONSE=$(prompt_user)
-    echo "Response code is: $RESPONSE"
-    if [ $RESPONSE -eq "0" ]; then
-        echo "$(date) - Reboot button pressed"
-        echo "Resetting counter to 0"
-        defaults write com.pixelmachinery.notifier popup_count 0
-        ## Execute the erase-install update funcation
-        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 60 --current-user --reinstall --depnotify --sameos
-    elif [ $RESPONSE -eq "2" ]; then
-        echo "$(date) - Postpone button pressed."
-        defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
-    elif [ $RESPONSE -eq "4" ]; then
-        echo "$(date) - Time ran out, forcing reboot."
-        echo "Resetting counter to 0"
-        defaults write com.pixelmachinery.notifier popup_count 0
-        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 60 --current-user --reinstall --depnotify --sameos
-    else 
-        echo "Something went wrong - return value is: $RESPONSE."
-        ## TODO notify pixel or something when this happens so we can investigate
-        exit 1
+        echo "$(date) - Popup notification launched."
+        RESPONSE=$(prompt_user)
+        echo "Response code is: $RESPONSE"
+        if [ $RESPONSE -eq "0" ]; then
+            echo "$(date) - Reboot button pressed"
+            echo "Resetting counter to 0"
+            defaults write com.pixelmachinery.notifier popup_count 0
+            ## Execute the erase-install update funcation
+            curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 60 --current-user --reinstall --depnotify --sameos --cleanup-after-use
+        elif [ $RESPONSE -eq "2" ]; then
+            echo "$(date) - Postpone button pressed."
+            defaults write com.pixelmachinery.notifier popup_count $NEW_COUNTER
+        elif [ $RESPONSE -eq "4" ]; then
+            echo "$(date) - Time ran out, forcing reboot."
+            echo "Resetting counter to 0"
+            defaults write com.pixelmachinery.notifier popup_count 0
+            curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --rebootdelay 60 --current-user --reinstall --depnotify --sameos --cleanup-after-use
+        else 
+            echo "Something went wrong - return value is: $RESPONSE."
+            ## TODO notify pixel or something when this happens so we can investigate
+            exit 1
+        fi
     fi
 else 
     echo "Current version (${ACTUAL}) is greater or equal to the target version (${target_ver}) - nothing to do."
