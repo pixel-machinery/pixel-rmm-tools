@@ -193,7 +193,7 @@ if [ ! "$UPGRADE_COMMAND" = "0" ]; then
     if [ $online -eq 1 ]; then
         echo "$(date) - Checking if latest install package is cached, download otherwise."
 
-        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --update --sameos
+        curl -s https://raw.githubusercontent.com/grahampugh/erase-install/main/erase-install.sh | sudo bash /dev/stdin --force-curl --sameos
 
         cache_verified=$?
         echo "returned $cache_verified"
