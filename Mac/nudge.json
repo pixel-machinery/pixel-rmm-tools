@@ -5,7 +5,7 @@
       ],
       "aggressiveUserExperience": true,
       "asynchronousSoftwareUpdate": true,
-      "attemptToFetchMajorUpgrade": true,
+      "attemptToFetchMajorUpgrade": false,
       "enforceMinorUpdates": true
     },
     "osVersionRequirements": [
