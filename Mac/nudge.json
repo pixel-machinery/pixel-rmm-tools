@@ -12,7 +12,7 @@
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT213220",
         "requiredInstallationDate": "2022-04-15T00:00:00Z",
-        "requiredMinimumOSVersion": "12.3.2",
+        "requiredMinimumOSVersion": "12.3.1",
         "targetedOSVersionsRule": "12"
       },
       {
