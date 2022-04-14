@@ -61,7 +61,7 @@
           "mainContentHeader": "Your device will restart during this update",
           "mainContentNote": "Important Notes",
           "mainContentSubHeader": "Updates can take around 30 minutes to complete",
-          "mainContentText": "To stay on your current major version of your OS, select 'More info' in Software Update.\n\nA fully up-to-date device is required to ensure that IT can accurately protect your device.",
+          "mainContentText": "To stay on your current major version of your OS, select 'More info' in Software Update.",
           "mainHeader": "Your device requires a security update",
           "oneDayDeferralButtonText": "One Day",
           "oneHourDeferralButtonText": "One Hour",
