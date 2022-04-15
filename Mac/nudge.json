@@ -11,13 +11,13 @@
     "osVersionRequirements": [
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT213220",
-        "requiredInstallationDate": "2022-04-15T00:00:00Z",
+        "requiredInstallationDate": "2022-04-20T00:00:00Z",
         "requiredMinimumOSVersion": "12.3.1",
         "targetedOSVersionsRule": "12"
       },
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT213184",
-        "requiredInstallationDate": "2022-04-15T00:00:00Z",
+        "requiredInstallationDate": "2022-04-20T00:00:00Z",
         "requiredMinimumOSVersion": "11.6.5",
         "targetedOSVersionsRule": "11"
       }
@@ -61,13 +61,13 @@
           "mainContentHeader": "Your device will restart during this update",
           "mainContentNote": "Important Notes",
           "mainContentSubHeader": "Updates can take around 30 minutes to complete",
-          "mainContentText": "A fully up-to-date device is required to ensure that IT can accurately protect your device.\n\nIf you do not update your device, you may lose access to some items necessary for your day-to-day tasks.\n\nTo begin the update, simply click on the Update Device button and follow the provided steps.",
+          "mainContentText": "To stay on your current major version of your OS, select 'More info' in Software Update.",
           "mainHeader": "Your device requires a security update",
           "oneDayDeferralButtonText": "One Day",
           "oneHourDeferralButtonText": "One Hour",
           "primaryQuitButtonText": "Later",
           "secondaryQuitButtonText": "I understand",
-          "subHeader": "A friendly reminder from your local IT team"
+          "subHeader": ""
         },
         {
           "_language": "es",
