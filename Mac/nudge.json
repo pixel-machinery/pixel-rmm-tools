@@ -11,13 +11,13 @@
     "osVersionRequirements": [
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT213257",
-        "requiredInstallationDate": "2022-05-27T00:00:00Z",
+        "requiredInstallationDate": "2022-06-03T00:00:00Z",
         "requiredMinimumOSVersion": "12.4",
         "targetedOSVersionsRule": "12"
       },
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT213256",
-        "requiredInstallationDate": "2022-05-27T00:00:00Z",
+        "requiredInstallationDate": "2022-06-03T00:00:00Z",
         "requiredMinimumOSVersion": "11.6.6",
         "targetedOSVersionsRule": "11"
       }
