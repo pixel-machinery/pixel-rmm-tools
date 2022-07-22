@@ -20,6 +20,12 @@
         "requiredInstallationDate": "2022-07-28T00:00:00Z",
         "requiredMinimumOSVersion": "11.6.7",
         "targetedOSVersionsRule": "11"
+      },
+      {
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213257",
+        "requiredInstallationDate": "2022-07-28T00:00:00Z",
+        "requiredMinimumOSVersion": "12.5",
+        "targetedOSVersionsRule": "10.15"
       }
     ],
     "userExperience": {
