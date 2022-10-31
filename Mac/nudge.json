@@ -62,7 +62,7 @@
           "mainContentNote": "Important Notes",
           "mainContentSubHeader": "Updates can take around 30 minutes to complete",
           "mainContentText": "To stay on your current major version of your OS, select 'More info' in Software Update. Please note: if your Mac does not detect the latest version, please reboot your laptop, and try the update again. For further issues, please let us know at support@pixelmachinery.com",
-          "mainHeader": "Pixel Machinery - Security Update Required",
+          "mainHeader": "Security Update Required",
           "oneDayDeferralButtonText": "One Day",
           "oneHourDeferralButtonText": "One Hour",
           "primaryQuitButtonText": "Later",
