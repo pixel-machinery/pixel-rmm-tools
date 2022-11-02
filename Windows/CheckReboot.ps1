@@ -30,7 +30,7 @@ function Create-GetSchedTime {
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
 [System.Reflection.Assembly]::LoadWithPartialName( "Microsoft.VisualBasic") | Out-Null
   
-$Title = "Pixel Reboot Notification"
+$Title = "Windows Update Notification"
 $Message = "In order to apply urgent security patches and updates to your computer, your machine must be restarted."
 $Button1Text = "Restart now"
 $Button2Text = "Postpone for 1 hour"
