@@ -16,15 +16,15 @@
         "targetedOSVersionsRule": "13"
       },
       {
-        "aboutUpdateURL": "https://support.apple.com/en-us/HT213494",
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213533",
         "requiredInstallationDate": "2023-01-13T00:00:00Z",
-        "requiredMinimumOSVersion": "12.6.1",
+        "requiredMinimumOSVersion": "12.6.2",
         "targetedOSVersionsRule": "12"
       },
       {
-        "aboutUpdateURL": "https://support.apple.com/en-us/HT213493",
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213534",
         "requiredInstallationDate": "2023-01-13T00:00:00Z",
-        "requiredMinimumOSVersion": "11.7.1",
+        "requiredMinimumOSVersion": "11.7.2",
         "targetedOSVersionsRule": "11"
       }
     ],
