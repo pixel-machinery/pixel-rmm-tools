@@ -12,7 +12,7 @@
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT213605",
         "requiredInstallationDate": "2023-02-17T00:00:00Z",
-        "requiredMinimumOSVersion": "13.2",
+        "requiredMinimumOSVersion": "13.2.1",
         "targetedOSVersionsRule": "13"
       },
       {
@@ -67,7 +67,7 @@
           "mainContentHeader": "Your device will restart during this update",
           "mainContentNote": "Important Notes",
           "mainContentSubHeader": "Updates can take around 30 minutes to complete",
-          "mainContentText": "To stay on your current major version of your OS, select 'More info' in Software Update. Please note: if your Mac does not detect the latest version, please reboot your laptop, and try the update again. For further issues, please let us know at support@pixelmachinery.com",
+          "mainContentText": "Note: if your Mac does not detect the latest version, please reboot your laptop, and try the update again. For further issues, contact support@pixelmachinery.com",
           "mainHeader": "Security Update Required",
           "oneDayDeferralButtonText": "One Day",
           "oneHourDeferralButtonText": "One Hour",
