@@ -66,7 +66,7 @@
           "informationButtonText": "More Info",
           "mainContentHeader": "Your device will restart during this update",
           "mainContentNote": "Important Notes",
-          "mainContentSubHeader": "13.2.1 is an urgent update and should be applied immediately.",
+          "mainContentSubHeader": "See 'More Info' to learn more about your update",
           "mainContentText": "Note: if your Mac does not detect the latest version, please reboot your laptop, and try the update again. For further issues, contact support@pixelmachinery.com",
           "mainHeader": "Security Update Required",
           "oneDayDeferralButtonText": "One Day",
