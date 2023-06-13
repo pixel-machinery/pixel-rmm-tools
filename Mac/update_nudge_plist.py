@@ -69,7 +69,7 @@ def get_org_by_serial(api_key, serial):
 
 org = ""
 serial_number = get_mac_serial_number()
-api_key = sys.argv[0]
+api_key = sys.argv[1]
 if serial_number is not None:
     print(f"Serial number: {serial_number}")
     org_response = get_org_by_serial(api_key, serial_number)
