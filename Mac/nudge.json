@@ -16,9 +16,9 @@
         "targetedOSVersionsRule": "13"
       },
       {
-        "aboutUpdateURL": "https://support.apple.com/en-us/HT213810",
+        "aboutUpdateURL": "https://support.apple.com/en-us/HT213844",
         "requiredInstallationDate": "2023-08-05T00:00:00Z",
-        "requiredMinimumOSVersion": "12.6.7",
+        "requiredMinimumOSVersion": "12.6.8",
         "targetedOSVersionsRule": "12"
       },
       {
