@@ -11,7 +11,7 @@
     "osVersionRequirements": [
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT213906",
-        "requiredInstallationDate": "2023-09-10T00:00:00Z",
+        "requiredInstallationDate": "2023-09-16T00:00:00Z",
         "requiredMinimumOSVersion": "13.5.2",
         "targetedOSVersionsRule": "13"
       },
