@@ -14,25 +14,25 @@
     "osVersionRequirements": [
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT214084",
-        "requiredInstallationDate": "2024-03-16T00:00:00Z",
+        "requiredInstallationDate": "2024-03-23T00:00:00Z",
         "requiredMinimumOSVersion": "14.4",
         "targetedOSVersionsRule": "14"
       },
       { 
         "aboutUpdateURL": "https://support.apple.com/en-us/HT214085",
-        "requiredInstallationDate": "2024-03-16T00:00:00Z",
+        "requiredInstallationDate": "2024-03-23T00:00:00Z",
         "requiredMinimumOSVersion": "13.6.5",
         "targetedOSVersionsRule": "13"
       },
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT214083",
-        "requiredInstallationDate": "2024-03-16T00:00:00Z",
+        "requiredInstallationDate": "2024-03-23T00:00:00Z",
         "requiredMinimumOSVersion": "12.7.4",
         "targetedOSVersionsRule": "12"
       },
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/HT213915",
-        "requiredInstallationDate": "2024-03-16T00:00:00Z",
+        "requiredInstallationDate": "2024-03-23T00:00:00Z",
         "requiredMinimumOSVersion": "11.7.10",
         "targetedOSVersionsRule": "11"
       }
