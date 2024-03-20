@@ -21,7 +21,7 @@
       { 
         "aboutUpdateURL": "https://support.apple.com/en-us/HT214085",
         "requiredInstallationDate": "2024-03-23T00:00:00Z",
-        "requiredMinimumOSVersion": "13.6.5",
+        "requiredMinimumOSVersion": "13.6.4",
         "targetedOSVersionsRule": "13"
       },
       {
