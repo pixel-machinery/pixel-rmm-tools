@@ -9,9 +9,7 @@ import sys
 
 def get_mac_serial_number():
     try:
-        output = subprocess.check_output(
-            ['ioreg', '-l']
-        )
+        output = subprocess.check_output(['ioreg', '-l'])
         output = output.decode('utf-8', errors='ignore')  # or use errors='replace'
         
         for line in output.split('\n'):
@@ -22,12 +20,31 @@ def get_mac_serial_number():
         print(f"Error: Failed to get serial number - {e}")
         return None
 
+def get_logged_in_user():
+    try:
+        logged_in_user = subprocess.check_output(
+            ['ls', '-l', '/dev/console']
+        ).decode('utf-8').split()[2]
+        return logged_in_user
+    except subprocess.CalledProcessError as e:
+        print(f"Error: Failed to get logged in user - {e}")
+        return None
+
+def get_user_id(username):
+    try:
+        user_id = subprocess.check_output(
+            ['id', '-u', username]
+        ).decode('utf-8').strip()
+        return user_id
+    except subprocess.CalledProcessError as e:
+        print(f"Error: Failed to get user ID for {username} - {e}")
+        return None
+
 filename = '/Library/LaunchAgents/ch.pxlm.Nudge.plist'
 launch_agent = 'com.pixelmachinery.Nudge'
 
 # Define default URL for the Nudge config file
 nudge_config_url_default = 'https://pixel-public-nudge.s3.amazonaws.com/nudge.json'
-
 
 def download_file_from_url(url, file_location):
     try:
@@ -41,7 +58,6 @@ def download_file_from_url(url, file_location):
 
     except URLError as e:
         print('URL error:', e.reason)
-
 
 def get_org_by_serial(api_key, serial):
     url = 'https://i3t3mbmsq1.execute-api.us-east-1.amazonaws.com/default/getOrgBySerial'
@@ -67,7 +83,19 @@ def get_org_by_serial(api_key, serial):
         print("Error: ", e)
         return None
 
+# Get logged in user and user ID
+logged_in_user = get_logged_in_user()
+if not logged_in_user:
+    print("Could not retrieve the logged-in user.")
+    exit(1)
 
+user_id = get_user_id(logged_in_user)
+if not user_id:
+    print("Could not retrieve the user ID.")
+    exit(1)
+
+print(f"Logged in user: {logged_in_user}")
+print(f"User ID: {user_id}")
 
 org = ""
 serial_number = get_mac_serial_number()
@@ -83,7 +111,6 @@ if org_response is None or org_response["statusCode"] != 200:
           if org_response is not None else 'API call failed')
 else:
     org = org_response["body"] + "-"
-
 
 print(org)
 
@@ -130,5 +157,6 @@ for item in root.iter():
 # Write back to the file
 tree.write(filename)
 
-subprocess.run(['launchctl', 'asuser', '501', 'launchctl', 'unload', filename], check=True)
-subprocess.run(['launchctl', 'asuser', '501', 'launchctl', 'load', filename], check=True)
+# Unload and load the LaunchAgent using bootout and bootstrap
+subprocess.run(['launchctl', 'bootout', f'gui/{user_id}', filename], check=True)
+subprocess.run(['launchctl', 'bootstrap', f'gui/{user_id}', filename], check=True)
