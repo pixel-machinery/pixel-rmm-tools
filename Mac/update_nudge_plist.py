@@ -10,8 +10,10 @@ import sys
 def get_mac_serial_number():
     try:
         output = subprocess.check_output(
-            ['ioreg', '-l'], text=True
+            ['ioreg', '-l']
         )
+        output = output.decode('utf-8', errors='ignore')  # or use errors='replace'
+        
         for line in output.split('\n'):
             if 'IOPlatformSerialNumber' in line:
                 serial_number = line.split('=')[-1].strip().replace('"', '')
