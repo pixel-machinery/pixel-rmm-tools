@@ -9,7 +9,8 @@
       "attemptToFetchMajorUpgrade": false,
       "enforceMinorUpdates": true,
       "acceptableScreenSharingUsage": true,
-      "acceptableCameraUsage": true
+      "acceptableCameraUsage": true,
+      "attemptToCheckForSupportedDevice": false
     },
     "osVersionRequirements": [
       {
