@@ -61,6 +61,7 @@
       "fallbackLanguage": "en",
       "forceFallbackLanguage": false,
       "forceScreenShotIcon": false,
+      "showActivelyExploitedCVEs": false,
       "iconDarkPath": "/somewhere/logoDark.png",
       "iconLightPath": "/somewhere/logoLight.png",
       "screenShotDarkPath": "/Applications/Utilities/Nudge.app/Contents/Resources/AppIcon.icns",
