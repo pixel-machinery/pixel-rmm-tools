@@ -15,27 +15,21 @@
     "osVersionRequirements": [
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/122068",
-        "requiredInstallationDate": "2025-02-08T00:00:00Z",
-        "requiredMinimumOSVersion": "15.3",
+        "requiredInstallationDate": "2025-03-08T00:00:00Z",
+        "requiredMinimumOSVersion": "15.3.1",
         "targetedOSVersionsRule": "15"
       },
       {
         "aboutUpdateURL": "https://support.apple.com/en-us/122069",
-        "requiredInstallationDate": "2025-02-08T00:00:00Z",
+        "requiredInstallationDate": "2025-03-08T00:00:00Z",
         "requiredMinimumOSVersion": "14.7.3",
         "targetedOSVersionsRule": "14"
       },
       { 
-        "aboutUpdateURL": "https://support.apple.com/en-us/122070",
-        "requiredInstallationDate": "2025-02-08T00:00:00Z",
-        "requiredMinimumOSVersion": "13.7.3",
+        "aboutUpdateURL": "https://developer.apple.com/documentation/macos-release-notes/macos-14-release-notes",
+        "requiredInstallationDate": "2025-03-08T00:00:00Z",
+        "requiredMinimumOSVersion": "14",
         "targetedOSVersionsRule": "13"
-      },
-      {
-        "aboutUpdateURL": "https://support.apple.com/en-us/HT214118",
-        "requiredInstallationDate": "2025-02-08T00:00:00Z",
-        "requiredMinimumOSVersion": "12.7.6",
-        "targetedOSVersionsRule": "12"
       }
     ],
     "userExperience": {
@@ -78,7 +72,7 @@
           "mainContentHeader": "Your device will restart during this update",
           "mainContentNote": "Important Notes",
           "mainContentSubHeader": "See 'Update Info' to learn more about your update",
-          "mainContentText": "If your Mac does not detect the latest version, please reboot your laptop, and try the update again. For further issues, contact support@pixelmachinery.com.\n\nTo stay on your current major version of MacOS, select 'More info' on the Software Update screen",
+          "mainContentText": "If your Mac does not detect the latest version, please reboot your laptop, and try the update again. For further issues, contact support@pixelmachinery.com.",
           "mainHeader": "Security Update Required",
           "oneDayDeferralButtonText": "One Day",
           "oneHourDeferralButtonText": "One Hour",
